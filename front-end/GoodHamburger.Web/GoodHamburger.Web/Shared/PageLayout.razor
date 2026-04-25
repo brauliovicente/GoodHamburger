@@ -1,0 +1,48 @@
+﻿<div class="page-container">
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <div>
+            <h3 class="page-title">@Title</h3>
+
+            @if (!string.IsNullOrEmpty(Subtitle))
+            {
+                <p class="page-subtitle">@Subtitle</p>
+            }
+        </div>
+
+        @if (HeaderActions != null)
+        {
+            <div class="page-actions">
+                @HeaderActions
+            </div>
+        }
+    </div>
+
+    <!-- ALERT -->
+    @if (!string.IsNullOrEmpty(Message))
+    {
+        <div class="alert @AlertClass alert-dismissible fade show shadow-sm">
+            @Message
+            <button class="btn-close" @onclick="OnClearMessage"></button>
+        </div>
+    }
+
+    <!-- CONTENT -->
+    <div class="page-content">
+        @ChildContent
+    </div>
+
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; }
+    [Parameter] public string Subtitle { get; set; }
+
+    [Parameter] public string Message { get; set; }
+    [Parameter] public string AlertClass { get; set; } = "alert-success";
+    [Parameter] public EventCallback OnClearMessage { get; set; }
+
+    [Parameter] public RenderFragment HeaderActions { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+}

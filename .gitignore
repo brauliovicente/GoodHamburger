@@ -1,0 +1,22 @@
+# Build outputs
+bin/
+obj/
+out/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+
+# Front-end Blazor build artifacts
+wwwroot/_framework/
+
+# User secrets
+secrets.json
+appsettings.Development.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

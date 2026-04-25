@@ -1,0 +1,170 @@
+﻿/* Container geral */
+h2 {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+/* Card */
+.card {
+    border-radius: 12px;
+    border: none;
+}
+
+/* Tabela */
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+    .table thead {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05rem;
+    }
+
+    .table tbody tr {
+        transition: all 0.2s ease;
+    }
+
+        .table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+/* ID pequeno */
+td.small {
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+/* Botões */
+.btn {
+    border-radius: 8px;
+    font-size: 0.8rem;
+    padding: 6px 10px;
+}
+
+.btn-outline-primary {
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+    .btn-outline-primary:hover {
+        background-color: #3b82f6;
+        color: white;
+    }
+
+.btn-outline-danger {
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+    .btn-outline-danger:hover {
+        background-color: #ef4444;
+        color: white;
+    }
+
+/* Alertas */
+.alert {
+    border-radius: 10px;
+    font-size: 0.9rem;
+}
+
+/* Loading */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Empty state */
+.text-muted {
+    color: #9ca3af !important;
+}
+
+/* Modal */
+.modal-content {
+    border-radius: 12px;
+    border: none;
+}
+
+.modal-header {
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.modal-footer {
+    border-top: 1px solid #f1f5f9;
+}
+
+.pedido-row {
+    transition: all 0.2s ease;
+}
+
+    .pedido-row:hover {
+        background-color: #f8f9fa;
+    }
+
+.btn-group .btn {
+    border-radius: 6px !important;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.table thead {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: #6c757d;
+}
+
+/* AÇÕES (botões com espaçamento moderno) */
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px; /* 🔥 espaço entre ícones */
+}
+
+    /* Botões de ação */
+    .action-buttons .btn {
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.25s ease;
+        border: 1px solid transparent;
+    }
+
+        /* Hover suave geral */
+        .action-buttons .btn:hover {
+            transform: translateY(-2px); /* leve elevação */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+    /* Botão neutro */
+    .action-buttons .btn-light {
+        background-color: #f8fafc;
+    }
+
+        .action-buttons .btn-light:hover {
+            background-color: #e2e8f0;
+        }
+
+    /* Editar */
+    .action-buttons .btn-edit:hover {
+        background-color: #3b82f6;
+        color: white;
+    }
+
+    /* Remover */
+    .action-buttons .btn-delete:hover {
+        background-color: #ef4444;
+        color: white;
+    }
+
+    /* Detalhes */
+    .action-buttons .btn-view:hover {
+        background-color: #10b981;
+        color: white;
+    }

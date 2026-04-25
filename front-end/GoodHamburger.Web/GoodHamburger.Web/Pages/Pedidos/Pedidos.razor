@@ -1,0 +1,289 @@
+﻿@page "/pedidos"
+
+<div class="page-container">
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <h3 class="page-title d-flex align-items-center gap-2">
+            <i class="bi bi-box-seam"></i>
+            <span>Pedidos</span>
+        </h3>
+        <p class="page-subtitle">Gestão e acompanhamento dos pedidos</p>
+    </div>
+
+    <!-- ALERT -->
+    @if (!string.IsNullOrEmpty(Mensagem))
+    {
+        <div class="alert @AlertClass alert-dismissible fade show shadow-sm">
+
+            <div class="fw-semibold">
+                @Mensagem
+            </div>
+
+            @if (ListaErros != null && ListaErros.Any())
+            {
+                <ul class="mb-0 mt-2 ps-3">
+                    @foreach (var erro in ListaErros)
+                    {
+                        <li>@erro</li>
+                    }
+                </ul>
+            }
+
+            <button class="btn-close" @onclick="LimparMensagem"></button>
+        </div>
+    }
+
+    <!-- CONTENT WRAPPER (IMPORTANTE PARA EVITAR BREAK RAZOR) -->
+    @if (IsLoading)
+    {
+        <div class="state-container">
+            <div class="spinner-border text-primary"></div>
+            <p>Carregando pedidos...</p>
+        </div>
+    }
+    else
+    {
+        @if (ListaPedidos == null || !ListaPedidos.Any())
+        {
+            <div class="state-container">
+                <div class="state-icon">
+                    <i class="bi bi-inbox fs-1 text-muted"></i>
+                </div>
+                <h5>Nenhum pedido encontrado</h5>
+                <p class="text-muted">Crie pedidos através do menu</p>
+            </div>
+        }
+        else
+        {
+            <div class="card shadow-sm border-0">
+
+                <div class="card-body p-0">
+
+                    <table class="table align-middle mb-0">
+
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Resumo</th>
+                                <th>Valores</th>
+                                <th class="text-end pe-4">Ações</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var pedido in ListaPedidos)
+                            {
+                                <tr class="table-row">
+
+                                    <td class="ps-4">
+                                        <div class="fw-semibold">Pedido</div>
+                                        <small class="text-muted">
+                                            @(pedido.Items?.Count ?? 0) itens
+                                        </small>
+                                    </td>
+
+                                    <td>
+                                        <div class="text-muted small">
+                                            Subtotal: @pedido.SubTotal.ToString("C", new System.Globalization.CultureInfo("pt-BR"))
+                                        </div>
+
+                                        <div class="fw-bold text-success">
+                                            Total: @pedido.Total.ToString("C", new System.Globalization.CultureInfo("pt-BR"))
+                                        </div>
+                                    </td>
+
+                                    <td class="text-end pe-4">
+
+                                        <button class="btn btn-sm btn-outline-primary me-1"
+                                                @onclick="() => VerDetalhes(pedido)">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+
+                                        <button class="btn btn-sm btn-outline-warning me-1"
+                                                @onclick="() => Editar(pedido.Id)">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+
+                                        <button class="btn btn-sm btn-outline-danger"
+                                                @onclick="() => ConfirmarRemocao(pedido.Id)">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+        }
+    }
+
+</div>
+
+<!-- MODAL DETALHES -->
+@if (MostrarDetalhes && PedidoSelecionado != null)
+{
+    <div class="modal fade show d-block">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+
+            <div class="modal-content border-0 shadow-lg rounded-3">
+
+                <!-- HEADER -->
+                <div class="modal-header bg-light">
+
+                    <div>
+                        <h5 class="modal-title mb-0 d-flex align-items-center gap-2">
+                            <i class="bi bi-receipt"></i>
+                            <span>Detalhes do Pedido</span>
+                        </h5>
+
+                        <small class="text-muted">
+                            @(PedidoSelecionado.Items?.Count ?? 0) itens •
+                            Subtotal: @PedidoSelecionado.SubTotal.ToString("C", new System.Globalization.CultureInfo("pt-BR"))
+                        </small>
+                    </div>
+
+                    <button type="button"
+                            class="btn-close"
+                            @onclick="FecharDetalhes">
+                    </button>
+
+                </div>
+
+                <!-- BODY -->
+                <div class="modal-body p-0">
+
+                    @if (PedidoSelecionado.Items == null || !PedidoSelecionado.Items.Any())
+                    {
+                        <div class="p-4 text-center text-muted">
+                            Nenhum item neste pedido
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="list-group list-group-flush"
+                             style="max-height: 400px; overflow-y:auto;">
+
+                            @foreach (var item in PedidoSelecionado.Items)
+                            {
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+
+                                    <!-- INFO ITEM -->
+                                    <div>
+                                        <div class="fw-semibold">
+                                            @item.Nome
+                                        </div>
+
+                                        <small class="text-muted">
+                                            @GetTipoDescricao(item.Tipo)
+                                        </small>
+                                    </div>
+
+                                    <!-- PREÇO -->
+                                    <div class="fw-bold text-success">
+                                        @item.Preco.ToString("C", new System.Globalization.CultureInfo("pt-BR"))
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+                    }
+
+                </div>
+
+                <!-- FOOTER -->
+                <div class="modal-footer bg-light d-flex justify-content-between">
+
+                    <div>
+                        <span class="text-muted">Total:</span>
+                        <span class="fw-bold fs-5 text-success ms-2">
+                            @PedidoSelecionado.Total.ToString("C", new System.Globalization.CultureInfo("pt-BR"))
+                        </span>
+                    </div>
+
+                    <button class="btn btn-secondary"
+                            @onclick="FecharDetalhes">
+                        <i class="bi bi-x-circle me-1"></i>
+                        Fechar
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- BACKDROP -->
+    <div class="modal-backdrop fade show"></div>
+}
+
+<!-- MODAL DE CONFIRMAÇÃO DE DELETE -->
+@if (MostrarConfirmacao)
+{
+    <div class="modal fade show d-block">
+        <div class="modal-dialog modal-dialog-centered">
+
+            <div class="modal-content border-0 shadow-lg rounded-3">
+
+                <!-- HEADER -->
+                <div class="modal-header bg-light">
+
+                    <h5 class="modal-title d-flex align-items-center gap-2">
+                        <i class="bi bi-exclamation-triangle text-danger"></i>
+                        <span>Confirmar remoção</span>
+                    </h5>
+
+                    <button type="button"
+                            class="btn-close"
+                            @onclick="CancelarRemocao">
+                    </button>
+
+                </div>
+
+                <!-- BODY -->
+                <div class="modal-body text-center p-4">
+
+                    <div class="mb-3">
+                        <i class="bi bi-trash text-danger fs-1"></i>
+                    </div>
+
+                    <h6 class="fw-semibold">
+                        Tens a certeza que desejas remover este pedido?
+                    </h6>
+
+                    <p class="text-muted mb-0">
+                        Esta ação não pode ser desfeita.
+                    </p>
+
+                </div>
+
+                <!-- FOOTER -->
+                <div class="modal-footer bg-light d-flex justify-content-between">
+
+                    <button class="btn btn-outline-secondary"
+                            @onclick="CancelarRemocao">
+                        Cancelar
+                    </button>
+
+                    <button class="btn btn-danger"
+                            @onclick="Remover">
+                        <i class="bi bi-trash me-1"></i>
+                        Remover
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- BACKDROP -->
+    <div class="modal-backdrop fade show"></div>
+}
