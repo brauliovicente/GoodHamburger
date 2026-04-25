@@ -9,10 +9,7 @@
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            // ❌ REMOVE isto em dev para evitar problemas de fetch
-            // app.UseHttpsRedirection();
-
+           
             app.UseCors(policy =>
                 policy
                     .AllowAnyOrigin()

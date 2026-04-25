@@ -150,7 +150,7 @@ namespace GoodHamburger.Api.Controllers
                     return Ok(response);
                 }
 
-                return NoContent();  // Se não houver pedidos
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -159,6 +159,13 @@ namespace GoodHamburger.Api.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Lista os pedidos com paginação, permitindo retornar um número limitado de pedidos por vez.
+        /// </summary>
+        /// <param name="pagina">Número da página a ser retornada.</param>
+        /// <param name="tamanho">Número de itens por página.</param>
+        /// <returns>Retorna os pedidos paginados com status 200 OK, ou uma mensagem caso não encontre pedidos.</returns>
         [HttpGet]
         [Route("listar-com-paginacao/{pagina}/{tamanho}")]
         public async Task<IActionResult> ListarPedidosComPaginacao([FromRoute] int pagina, [FromRoute] int tamanho)

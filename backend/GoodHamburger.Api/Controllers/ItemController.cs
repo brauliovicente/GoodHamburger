@@ -21,6 +21,11 @@ namespace GoodHamburger.Api.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Cria um novo item.
+        /// </summary>
+        /// <param name="command">Comando contendo os dados do item a ser criado.</param>
+        /// <returns>Retorna 200 OK se a criação for bem-sucedida, ou 400 BadRequest se houver erros.</returns>
         [HttpPost("criar")]
         public async Task<IActionResult> Criar([FromBody] CriarItemCommand command)
         {
@@ -32,6 +37,12 @@ namespace GoodHamburger.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Actualiza um item existente.
+        /// </summary>
+        /// <param name="id">ID do item a ser atualizado.</param>
+        /// <param name="command">Comando contendo os dados atualizados do item.</param>
+        /// <returns>Retorna 200 OK se a atualização for bem-sucedida, ou 400 BadRequest se o ID da URL não coincidir com o ID do comando.</returns>
         [HttpPut("actualizar/{id}")]
         public async Task<IActionResult> Actualizar(Guid id, [FromBody] ActualizarItemCommand command)
         {
@@ -46,6 +57,12 @@ namespace GoodHamburger.Api.Controllers
             return Ok(result);
         }
 
+
+        /// <summary>
+        /// Remove um item pelo ID.
+        /// </summary>
+        /// <param name="id">ID do item a ser removido.</param>
+        /// <returns>Retorna 200 OK se a remoção for bem-sucedida, ou 404 NotFound se o item não for encontrado.</returns>
         [HttpDelete("remover/{id}")]
         public async Task<IActionResult> Remover(Guid id)
         {
@@ -59,6 +76,11 @@ namespace GoodHamburger.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Lista todos os itens disponíveis no cardápio.
+        /// </summary>
+        /// <returns>Retorna uma lista de itens com status 200 OK.</returns>
+
         [HttpGet("listar")]
         public async Task<IActionResult> Listar()
         {
@@ -67,6 +89,11 @@ namespace GoodHamburger.Api.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Consulta um item pelo ID.
+        /// </summary>
+        /// <param name="id">ID do item a ser consultado.</param>
+        /// <returns>Retorna 200 OK com o item encontrado, ou 404 NotFound se o item não for encontrado.</returns>
         [HttpGet("consultar-pelo-id/{id}")]
         public async Task<IActionResult> ConsultarPorId(Guid id)
         {
